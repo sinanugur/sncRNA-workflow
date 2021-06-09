@@ -1,0 +1,13 @@
+version: 3.0
+gencode: /WORKING/databases/gencode/gencode.v34.annotation.gff3
+pirbase: /WORKING/databases/pirbase/piR_hg38_hglft_genome_7460_c9ff20.filtered.gtf
+mirbase: /WORKING/databases/miRBase/hsa.gff3
+mirgenedb: /WORKING/databases/mirgenedb/hsa.v2.gff
+trnagencode: /WORKING/databases/gencode/gencode.v34.tRNAs.gff3
+
+#v2.0
+# gencode: /WORKING/databases/gencode/gencode.v26.annotation.gff3
+# pirbase: /WORKING/databases/pirbase/piR_hg38_hglft_genome_7460_c9ff20.filtered.gtf
+# mirbase: ~/data/miRBase/hsa.gff3
+# mirgenedb: /WORKING/databases/mirgenedb/mirgenedb.gff
+# trnagencode: /WORKING/databases/gencode/gencode.v25.tRNAs.gff3
