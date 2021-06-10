@@ -4,7 +4,7 @@ humangenome="/home/sium/data/humangenome/hg38"
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
 
-rule all:
+rule all_bowtie2:
 	input:
 		expand("analyses/bowtie_mappings_genome_multi/{samplegroup}/{sample}.sorted.bam",zip,samplegroup=directories,sample=files),
 		"results/file_statistics.csv",
@@ -35,7 +35,7 @@ rule collapsing_reads:
 
 	shell:
 		"""
-		#collapse_reads.sh {input} {output} 
+		
 		zcat {input} | fastx_collapser | gzip > {output}
 				
 		"""
@@ -70,16 +70,15 @@ rule file_stats:
 		seq_count=$(zcat {input[0]} | echo $((`wc -l`/4)))
 		trimmed_seq_count=$(zcat {input[1]} | echo $((`wc -l`/4)))
 		collapsed_reads=$(zcat {input[2]} | grep ">" -c)
-		spike_in_counts=$(zcat {input[2]} | awk '{{if(/^TCACCGGGTGTAAATCAGCTTG$/) print line; else line=$0;}}' | awk '/>/{{match($0,/-([0-9]+)$/,m); print m[1]}}')
+		
 	
 		filename=$(basename {input[0]})
 		gc=$(seqtk fqchk {input[0]} | awk '/ALL/{{print $4+$5}}')
-		if [ -L {input[0]} ]; then physical=$(readlink {input[0]}); else physical={input[0]}; fi
-		
+				
 		filesize=$(du -h --block-size=M $physical | cut -f1)
 
-		echo -e "md5sum\tPhysical Location\tFilename\t#Reads\t#Reads After Trimming\t#Collapsed Reads\t#Spike In Counts\t#File Size(MB)\tGC" > {output} 
-		echo -e $md5"\t"$physical"\t"$filename"\t"$seq_count"\t"$trimmed_seq_count"\t"$collapsed_reads"\t"$spike_in_counts"\t"$filesize"\t"$gc >> {output}
+		echo -e "md5sum\tFilename\t#Reads\t#Reads After Trimming\t#Collapsed Reads\t#File Size(MB)\tGC" > {output} 
+		echo -e $md5"\t"$filename"\t"$seq_count"\t"$trimmed_seq_count"\t"$collapsed_reads"\t"$filesize"\t"$gc >> {output}
 
 		"""
 
@@ -109,13 +108,3 @@ rule combine_file_stats:
 		shell("""echo "md5sum\tphysical\tfilename\tcase_control\tsample\ttotal_reads\ttotal_reads_after_trimming\tcollapsed_reads\tspike_in_counts\tfile_size(MB)\tgc" > {output};""")	
 		for i in input:
 			shell("""cat {i} | grep -v "#" >> {output};""")
-
-
-rule bam_to_bed:
-	input:
-		"analyses/bowtie_mappings_genome_multi/{samplegroup}/{sample}.sorted.bam"
-	output:
-		"analyses/bam_to_bed/{samplegroup}/{sample}.sorted.bed.gz"
-	run:
-		shell("bedtools bamtobed -i {input} | awk 'match($0,/[0-9]+-([0-9]+)/,m) {{for(i=1;i <= m[1];i++) print}}' | gzip > {output}")
-

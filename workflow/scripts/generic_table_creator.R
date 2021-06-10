@@ -95,7 +95,7 @@ read_file_df=read_files(read_file_list)
 
 read_file_df[is.na(read_file_df)]=0
 
-write.table(read_file_df,paste0(arguments[1],".count.table.csv"),row.names = F,sep = "\t")
+write.table(read_file_df,paste0(arguments[1],".tsv"),row.names = F,sep = "\t")
 
 
 
