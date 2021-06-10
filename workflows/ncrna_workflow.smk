@@ -1,10 +1,13 @@
 from collections import defaultdict
 
-#include: "bowtie2.smk"
+include: "bowtie2.smk"
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
 
 
-directories, files, = glob_wildcards("analyses/bowtie_mappings_genome_multi/{samplegroup}/{sample}.sorted.bam")
+#directories, files, = glob_wildcards("analyses/bowtie_mappings_genome_multi/{samplegroup}/{sample}.sorted.bam")
+
+directories, files, = glob_wildcards("data/raw/{samplegroup}/{sample}.fastq.gz")
+
 gene=["exons.gencode","pirbase","miRBaseprecursor","miRBasemiRNA","tRNAgencode"]
 
 
@@ -12,6 +15,9 @@ configfile: "config/config.yaml"
 
 
 file_dict=defaultdict(list)
+
+
+
 
 #assign files to correct directories
 for i in zip(directories,files):

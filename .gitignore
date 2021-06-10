@@ -1,2 +1,5 @@
 .snakemake
 */.snakemake
+/results
+/analyses
+/data

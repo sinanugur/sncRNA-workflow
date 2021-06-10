@@ -1,10 +1,11 @@
 from collections import defaultdict
 
-
+include: "bowtie2.smk"
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
 
 
-directories, files, = glob_wildcards("analyses/bowtie_mappings_genome_multi/{samplegroup}/{sample}.sorted.bam")
+#directories, files, = glob_wildcards("analyses/bowtie_mappings_genome_multi/{samplegroup}/{sample}.sorted.bam")
+directories, files, = glob_wildcards("data/raw/{samplegroup}/{sample}.fastq.gz")
 gene=["gencode.uniq.exon","pirbase.uniq","tRNAgencode.uniq"]
 
 
@@ -21,7 +22,7 @@ for i in zip(directories,files):
 
 	
 
-rule all:
+rule all_statistics:
 	input:
 		expand("results/statistics/{samplegroup}/{gene}.count.table.csv",samplegroup=set(directories),gene=gene),
 
