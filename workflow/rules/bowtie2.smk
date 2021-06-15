@@ -1,21 +1,25 @@
-directories, files, = glob_wildcards("data/raw/{samplegroup}/{sample}.fastq.gz")
+#directories, files, = glob_wildcards("data/raw/{sample}.fastq.gz")
 
-humangenome="/home/sium/data/humangenome/hg38"
+#humangenome="/home/sium/data/humangenome/hg38"
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
 
+configfile: "config/config.yaml"
+
+humangenome=config["humangenome"]
+
 rule all_bowtie2:
 	input:
-		expand("analyses/bowtie_mappings_genome_multi/{samplegroup}/{sample}.sorted.bam",zip,samplegroup=directories,sample=files),
+		expand("analyses/bowtie_mappings_genome_multi/{sample}.sorted.bam",sample=files),
 		"results/file_statistics.csv",
-		expand("data/stats/{samplegroup}/{sample}.trimmed.FastQC",zip,samplegroup=directories,sample=files)
+		expand("analyses/stats/{sample}.trimmed.FastQC",sample=files)
 
 rule adapter_trimming_fastp:
 	input:
-		"data/raw/{samplegroup}/{sample}.fastq.gz"
+		"data/{sample}.fastq.gz"
 
 	output:
-		"data/trimmed/{samplegroup}/{sample}.trimmed.fastq.gz"
+		"analyses/trimmed/{sample}.trimmed.fastq.gz"
 	
 	threads: 15
 
@@ -28,10 +32,10 @@ rule adapter_trimming_fastp:
 
 rule collapsing_reads:
 	input:
-		"data/trimmed/{samplegroup}/{sample}.trimmed.fastq.gz"
+		"analyses/trimmed/{sample}.trimmed.fastq.gz"
 	
 	output:
-		"data/collapsed/{samplegroup}/{sample}.trimmed.collapsed.fasta.gz"
+		"analyses/collapsed/{sample}.trimmed.collapsed.fasta.gz"
 
 	shell:
 		"""
@@ -42,27 +46,26 @@ rule collapsing_reads:
 
 rule bowtie2_mapping:
 	input:
-		"data/collapsed/{samplegroup}/{sample}.trimmed.collapsed.fasta.gz"
+		"analyses/collapsed/{sample}.trimmed.collapsed.fasta.gz"
 
 	output:
-		"analyses/bowtie_mappings_genome_multi/{samplegroup}/{sample}.sorted.bam"
+		"analyses/bowtie_mappings_genome_multi/{sample}.sorted.bam"
 
 	threads: 15
 
 	shell:
-		#"bowtie_map_local_all.sh /home/sium/data/humangenome/hg38 {input} {output}"
 		"""
 		bowtie2 --sensitive-local -k 10 -f -p {threads} -x {humangenome} -U <(zcat {input}) | samtools view -bS - | samtools sort - -o {output}
 		"""
 
 rule file_stats:
 	input:
-		"data/raw/{samplegroup}/{sample}.fastq.gz",
-		"data/trimmed/{samplegroup}/{sample}.trimmed.fastq.gz",
-		"data/collapsed/{samplegroup}/{sample}.trimmed.collapsed.fasta.gz"
+		"data/{sample}.fastq.gz",
+		"analyses/trimmed/{sample}.trimmed.fastq.gz",
+		"analyses/collapsed/{sample}.trimmed.collapsed.fasta.gz"
 
 	output:
-		"data/stats/{samplegroup}/{sample}.sample.stats.txt"
+		"analyses/stats/{sample}.sample.stats.txt"
 
 	shell:
 		"""
@@ -70,6 +73,7 @@ rule file_stats:
 		seq_count=$(zcat {input[0]} | echo $((`wc -l`/4)))
 		trimmed_seq_count=$(zcat {input[1]} | echo $((`wc -l`/4)))
 		collapsed_reads=$(zcat {input[2]} | grep ">" -c)
+		if [ -L {input[0]} ]; then physical=$(readlink {input[0]}); else physical={input[0]}; fi
 		
 	
 		filename=$(basename {input[0]})
@@ -84,10 +88,10 @@ rule file_stats:
 
 rule fastqc_stats:
 	input:
-		"data/trimmed/{samplegroup}/{sample}.trimmed.fastq.gz"
+		"analyses/trimmed/{sample}.trimmed.fastq.gz"
 
 	output:
-		directory("data/stats/{samplegroup}/{sample}.trimmed.FastQC")
+		directory("analyses/stats/{sample}.trimmed.FastQC")
 
 	threads: 15
 
@@ -99,7 +103,7 @@ rule fastqc_stats:
 
 rule combine_file_stats:
 	input:
-		expand("data/stats/{samplegroup}/{sample}.sample.stats.txt",zip,samplegroup=directories,sample=files)
+		expand("analyses/stats/{sample}.sample.stats.txt",sample=files)
 
 	output:
 		"results/file_statistics.csv"

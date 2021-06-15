@@ -1,4 +1,4 @@
-directories, files, = glob_wildcards("data/raw/{samplegroup}/{sample}.fastq.gz")
+files, = glob_wildcards("data/{sample}.fastq.gz")
 
 
 
@@ -9,6 +9,8 @@ include: "rules/ncrna_workflow.smk"
 
 rule all:
 	input:
-		expand("results/count_tables/{samplegroup}/{gene}.tsv",samplegroup=set(directories),gene=gene),
-		expand(["results/count_tables/{samplegroup}/" + x + ".tsv" for x in ["lincRNA","misc_RNA","protein_coding","snoRNA","snRNA","scaRNA","antisense"]],samplegroup=set(directories))
+		expand("results/count_tables/{gene}.tsv",gene=gene),
+		expand(["results/count_tables/" + x + ".tsv" for x in ["lincRNA","misc_RNA","protein_coding","snoRNA","snRNA","scaRNA","antisense"]]),
+		"results/file_statistics.csv",
+		expand("analyses/stats/{sample}.trimmed.FastQC",sample=files)
 
