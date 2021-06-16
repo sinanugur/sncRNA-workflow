@@ -15,3 +15,5 @@ rule all:
 		expand("analyses/stats/{sample}.trimmed.FastQC",sample=files)
 
 
+
+

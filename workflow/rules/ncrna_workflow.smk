@@ -1,6 +1,7 @@
 from collections import defaultdict
 
 include: "bowtie2.smk"
+include: "prepare_databases.smk"
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
 
 
@@ -35,14 +36,14 @@ rule all_ncrna:
 
 rule exon_table_from_gencode:
 	input: 
-			bam="analyses/bowtie_mappings_genome_multi/{sample}.sorted.bam",
-			gencode=config["gencode"]
+		bam="analyses/bowtie_mappings_genome_multi/{sample}.sorted.bam",
+		gencode="databases/gencode.gff3"
 
 	output:
 		"analyses/bowtie_mappings_genome_multi/txt_tables_per_file/" + x + "/{sample}." + x + ".txt" for x in ["gencode"]
 
 	conda:
-		"envs/main.yaml"
+		"../envs/main.yaml"
 	shell:
 		'''	
 		input_name=$(basename {input.bam})
@@ -53,12 +54,12 @@ rule exon_table_from_gencode:
 rule pirna_from_pirbase:
 	input:
 		bam="analyses/bowtie_mappings_genome_multi/{sample}.sorted.bam",
-		pirbase=config["pirbase"]
+		pirbase="databases/piRNA.gtf"
 	output:
 		"analyses/bowtie_mappings_genome_multi/txt_tables_per_file/" + x + "/{sample}." + x + ".txt" for x in ["piRNA"]
 
 	conda:
-		"envs/main.yaml"
+		"../envs/main.yaml"
 	shell:
 		'''
         input_name=$(basename {input.bam})
@@ -76,7 +77,7 @@ rule mirna_and_precursor_from_mirBase:
 
 
 	conda:
-		"envs/main.yaml"
+		"../envs/main.yaml"
 	shell:  
                 '''
                 	input_name=$(basename {input.bam})
@@ -98,7 +99,7 @@ rule trna_from_gencode:
 		"analyses/bowtie_mappings_genome_multi/txt_tables_per_file/" + x + "/{sample}." + x + ".txt" for x in ["tRNA"]
 
 	conda:
-		"envs/main.yaml"
+		"../envs/main.yaml"
 	
 	shell:
 		'''
@@ -117,7 +118,7 @@ rule create_final_count_tables:
 		"results/count_tables/{gene}.tsv"
 
 	conda:
-		"envs/main.yaml"
+		"../envs/main.yaml"
 
 	shell:
 		'''
@@ -134,11 +135,11 @@ rule separate_gene_types:
 
 
 	conda:
-		"envs/main.yaml"
-	run:
-		shell("""
+		"../envs/main.yaml"
+	shell:
+		"""
 		cd results/count_tables/
 		{directory_workdir}/workflow/scripts/separate_gene_types.R gencode.tsv
 
-		""")
+		"""
 
