@@ -2,4 +2,5 @@
 */.snakemake
 /results
 /analyses
-/data
+/data/*fastq.gz
+/data/*fastq
