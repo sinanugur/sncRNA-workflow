@@ -32,7 +32,12 @@ Databases
 
 Output
 ------
+This workflow will generate `results/` directory. 
 
+This directory contains count tables and sample statistics.
 
 Citiation
+---------
+
+Funding
 ---------
