@@ -1,0 +1,34 @@
+name: main
+channels:
+  - bioconda
+  - conda-forge
+  - r
+  
+dependencies:
+  - bowtie=1.2.2
+  - bowtie2=2.3.4.1
+  - brotlipy=0.7.0
+  - bzip2=1.0.8
+  - fastp=0.20.1
+  - fastqc=0.11.8
+  - gawk=5.1.0
+  - mintmap=1.0
+  - mirtop=0.4.23
+  - moreutils
+  - coreutils
+  - pip
+  - samtools=1.12
+  - scipy=1.4.1
+  - seqcluster=1.2.7
+  - seqtk=1.3
+  - yaml=0.2.4
+  - pip:
+    - biopython==1.68
+    - htseq==0.11.2
+    - multiqc
+    - numpy
+    - psutil==5.7.0
+    - pybedtools
+    - pysam==0.15.3
+    - docopt
+

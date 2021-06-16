@@ -20,6 +20,9 @@ rule adapter_trimming_fastp:
 
 	output:
 		"analyses/trimmed/{sample}.trimmed.fastq.gz"
+
+	conda:
+		"envs/main.yaml"
 	
 	threads: 15
 
@@ -37,6 +40,9 @@ rule collapsing_reads:
 	output:
 		"analyses/collapsed/{sample}.trimmed.collapsed.fasta.gz"
 
+	conda:
+		"envs/main.yaml"
+
 	shell:
 		"""
 		
@@ -50,6 +56,9 @@ rule bowtie2_mapping:
 
 	output:
 		"analyses/bowtie_mappings_genome_multi/{sample}.sorted.bam"
+
+	conda:
+		"envs/main.yaml"
 
 	threads: 15
 
@@ -66,6 +75,9 @@ rule file_stats:
 
 	output:
 		"analyses/stats/{sample}.sample.stats.txt"
+
+	conda:
+		"envs/main.yaml"
 
 	shell:
 		"""
@@ -93,6 +105,9 @@ rule fastqc_stats:
 	output:
 		directory("analyses/stats/{sample}.trimmed.FastQC")
 
+	conda:
+		"envs/main.yaml"
+
 	threads: 15
 
 	shell:
@@ -107,6 +122,9 @@ rule combine_file_stats:
 
 	output:
 		"results/file_statistics.csv"
+
+	conda:
+		"envs/main.yaml"
 	
 	run:
 		shell("""echo "md5sum\tphysical\tfilename\tcase_control\tsample\ttotal_reads\ttotal_reads_after_trimming\tcollapsed_reads\tspike_in_counts\tfile_size(MB)\tgc" > {output};""")	

@@ -56,6 +56,9 @@ rule pirna_from_pirbase:
 		pirbase=config["pirbase"]
 	output:
 		"analyses/bowtie_mappings_genome_multi/txt_tables_per_file/" + x + "/{sample}." + x + ".txt" for x in ["piRNA"]
+
+	conda:
+		"envs/main.yaml"
 	shell:
 		'''
         input_name=$(basename {input.bam})
@@ -70,6 +73,10 @@ rule mirna_and_precursor_from_mirBase:
 		mirbase=config["mirbase"]
 	output:
 		"analyses/bowtie_mappings_genome_multi/txt_tables_per_file/" + x + "/{sample}." + x + ".txt" for x in ["miRNA","miRNA_precursor"]
+
+
+	conda:
+		"envs/main.yaml"
 	shell:  
                 '''
                 	input_name=$(basename {input.bam})
@@ -89,6 +96,9 @@ rule trna_from_gencode:
 		trnagencode=config["trnagencode"]
 	output:
 		"analyses/bowtie_mappings_genome_multi/txt_tables_per_file/" + x + "/{sample}." + x + ".txt" for x in ["tRNA"]
+
+	conda:
+		"envs/main.yaml"
 	
 	shell:
 		'''
@@ -106,6 +116,9 @@ rule create_final_count_tables:
 	output:
 		"results/count_tables/{gene}.tsv"
 
+	conda:
+		"envs/main.yaml"
+
 	shell:
 		'''
 		workflow/scripts/generic_table_creator.R {wildcards.gene} analyses/bowtie_mappings_genome_multi/txt_tables_per_file/{wildcards.gene}
@@ -118,6 +131,10 @@ rule separate_gene_types:
 		"results/count_tables/gencode.tsv"
 	output:
 		["results/count_tables/" + x + ".tsv" for x in ["lincRNA","misc_RNA","protein_coding","snoRNA","snRNA","scaRNA","antisense"]]
+
+
+	conda:
+		"envs/main.yaml"
 	run:
 		shell("""
 		cd results/count_tables/

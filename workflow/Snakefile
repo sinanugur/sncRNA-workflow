@@ -14,3 +14,4 @@ rule all:
 		"results/file_statistics.csv",
 		expand("analyses/stats/{sample}.trimmed.FastQC",sample=files)
 
+
