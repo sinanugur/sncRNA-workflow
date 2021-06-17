@@ -17,7 +17,7 @@ cd sncRNA-workflow
 
 Quick start example
 -------------------
-Create a new directory called data and place your FASTQ files or their symbolic links into `data/` directory. You need an active Conda installation with Snakemake. You do not have to install any other requirements. This will trigger a workflow run immediately using 15 threads:
+Create a new directory called __data__ and place your FASTQ files or their symbolic links into `data/` directory. You need an active Conda installation with Snakemake. You do not have to install any other requirements. This will trigger a workflow run immediately using 15 threads:
 
 ```
 snakemake -j 15 --use-conda
