@@ -26,9 +26,10 @@ snakemake -j 15 --use-conda
 Databases
 ---------------------
 ```
-
+GENCODE (v38)
+miRBase (v22)
+piRBase (v1.0)
 ```
-
 
 Output
 ------
@@ -36,6 +37,21 @@ This workflow will generate `results/` directory.
 
 This directory contains count tables and sample statistics.
 
+```
+Full GENCODE count table: gencode.tsv
+miRBase miRNA: miRNA.tsv
+miRBase miRNA precursor: miRNA_precursor.tsv
+long non-coding RNA (GENCODE): lincRNA.tsv
+miscellaneous RNA (GENCODE): misc_RNA.tsv
+piwi-interacting RNAs (piRBase): piRNA.tsv
+mRNA (GENCODE): protein_coding.tsv
+Small nucleolar RNA (GENCODE): snoRNA.tsv
+Small nuclear RNA (GENCODE): snRNA.tsv
+Small Cajal body-specific RNA (GENCODE): scaRNA.tsv
+tRNA (GENCODE): tRNA.tsv
+antisense RNA: antisense.tsv
+
+```
 Citiation
 ---------
 This workflow is adapted from our small RNA analysis study. Please cite if you find this useful: https://doi.org/10.1080/15476286.2017.1403003
