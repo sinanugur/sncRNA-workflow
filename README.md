@@ -54,7 +54,7 @@ antisense RNA (GENCODE): antisense.tsv
 ```
 Citiation
 ---------
-This workflow is adapted from our small RNA analysis study. Please cite if you find this useful: https://doi.org/10.1080/15476286.2017.1403003
+This workflow was adapted from our small RNA analysis study. Please cite if you find this useful: https://doi.org/10.1080/15476286.2017.1403003
 
 Funding
 ---------
