@@ -10,7 +10,7 @@ Installation
 To install this workflow, clone the repo:
 
 ```
-git clone https://github.com/sinanugur/sncRNA-workflows.git
+git clone https://github.com/sinanugur/sncRNA-workflow.git
 cd sncRNA-workflow
 
 ```
