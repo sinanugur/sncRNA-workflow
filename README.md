@@ -49,7 +49,7 @@ Small nucleolar RNA (GENCODE): snoRNA.tsv
 Small nuclear RNA (GENCODE): snRNA.tsv
 Small Cajal body-specific RNA (GENCODE): scaRNA.tsv
 tRNA (GENCODE): tRNA.tsv
-antisense RNA: antisense.tsv
+antisense RNA (GENCODE): antisense.tsv
 
 ```
 Citiation
