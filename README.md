@@ -38,6 +38,10 @@ This directory contains count tables and sample statistics.
 
 Citiation
 ---------
+This workflow is adapted from our small RNA analysis study. Please cite if you find this useful: https://doi.org/10.1080/15476286.2017.1403003
 
 Funding
 ---------
+The study was funded by the Research Council of Norway under the Program Human Biobanks and Health Data (grant numbers 229621/H10 and 248791/H10) and the EULAT EradicateGBC project. 
+
+
