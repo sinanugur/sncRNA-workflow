@@ -16,6 +16,8 @@ gzcat databases/gencode.v$release.tRNAs.gff3.gz > databases/tRNA.gff3
 wget  "http://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/$latest/gencode.v$release.annotation.gff3.gz" -O databases/gencode.v$release.annotation.gff3.gz
 
 
-gzcat databases/gencode.v$release.annotation.gff3.gz > databases/gencode.gff3
+#gzcat databases/gencode.v$release.annotation.gff3.gz > databases/gencode.gff3
+
+mv databases/gencode.v$release.annotation.gff3.gz databases/gencode.gff3.gz
 
 

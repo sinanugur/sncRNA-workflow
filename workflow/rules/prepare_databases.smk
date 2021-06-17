@@ -6,7 +6,7 @@ from collections import defaultdict
 
 rule prepare_gencode:
     input:
-        "databases/gencode.v38.annotation.gff3.gz"
+        "databases/gencode.gff3.gz"
     output:
         temp("databases/gencode.gff3")
     shell:
