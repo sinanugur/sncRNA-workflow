@@ -4,7 +4,7 @@
 Introduction
 ------------
 
-A small ncRNA workflow in Snakemake. Our small RNA sequencing pipeline provides a bioinformatics solution to process RNA sequencing data for downstream analyses. The pipeline is built in Snakemake and can be run on different platforms and high performance computing (HPC) systems. It is packed with an Anaconda installation to ensure reproducibility. 
+This small RNA sequencing pipeline provides a bioinformatics solution to process RNA sequencing data for downstream analyses. The pipeline is built in Snakemake and can be run on different platforms and high performance computing (HPC) systems. It is packed with an Anaconda installation to ensure reproducibility. 
 
 
 
