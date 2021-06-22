@@ -1,6 +1,5 @@
 #directories, files, = glob_wildcards("data/raw/{sample}.fastq.gz")
 
-#humangenome="/home/sium/data/humangenome/hg38"
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
 
@@ -52,7 +51,11 @@ rule collapsing_reads:
 
 rule bowtie2_mapping:
 	input:
-		"analyses/collapsed/{sample}.trimmed.collapsed.fasta.gz"
+		"analyses/collapsed/{sample}.trimmed.collapsed.fasta.gz",
+		multiext(
+            "databases/hg38",
+            ".1.bt2", ".2.bt2", ".3.bt2", ".4.bt2", ".rev.1.bt2", ".rev.2.bt2",
+        )
 
 	output:
 		"analyses/bowtie_mappings_genome_multi/{sample}.sorted.bam"
@@ -64,7 +67,7 @@ rule bowtie2_mapping:
 
 	shell:
 		"""
-		bowtie2 --sensitive-local -k 10 -f -p {threads} -x {humangenome} -U <(zcat {input}) | samtools view -bS - | samtools sort - -o {output}
+		bowtie2 --sensitive-local -k 10 -f -p {threads} -x {humangenome} -U <(zcat {input[0]}) | samtools view -bS - | samtools sort - -o {output}
 		"""
 
 rule file_stats:

@@ -3,7 +3,7 @@ gencode: databases/gencode.gff3
 pirbase: databases/piRNA.gtf
 mirbase: databases/hsa.gff3
 trnagencode: databases/tRNA.gff3
-humangenome: /home/sium/data/humangenome/hg38
+humangenome: databases/hg38
 
 #v1.1
 # gencode: /WORKING/databases/gencode/gencode.v26.annotation.gff3

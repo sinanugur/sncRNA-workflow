@@ -1,7 +1,10 @@
 # sncRNA workflow
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active) 
 
-A small ncRNA workflow in Snakemake.
+Introduction
+------------
+
+This small RNA sequencing pipeline provides a bioinformatics solution to process RNA sequencing data for downstream analyses. The pipeline is built in Snakemake and can be run on different platforms and high performance computing (HPC) systems. It is packed with an Anaconda installation to ensure reproducibility. 
 
 
 
