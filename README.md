@@ -18,9 +18,17 @@ cd sncRNA-workflow
 
 ```
 
+If you have Anaconda, a new environment can be created
+
+```
+conda env create --file environment.yml
+conda activate smrnaworkflow
+
+```
+
 Quick start example
 -------------------
-Create a new directory called __data__ and place your FASTQ files or their symbolic links into `data/` directory. You need an active Conda installation with Snakemake. You do not have to install any other requirements. This will trigger a workflow run immediately using 15 threads:
+You should create a new directory called __data__ and place your FASTQ files or their symbolic links into `data/` directory. You need an active Conda installation with Snakemake or create an environment using the YAML file. You do not have to install any other requirements. This will trigger a workflow run immediately using 15 threads:
 
 ```
 snakemake -j 15 --use-conda
