@@ -11,7 +11,7 @@ rule all_bowtie2:
 	input:
 		expand("analyses/bowtie_mappings_genome_multi/{sample}.sorted.bam",sample=files),
 		"results/file_statistics.csv",
-		expand("analyses/stats/{sample}.trimmed.FastQC",sample=files)
+		expand("analyses/fastqc/{sample}.trimmed.FastQC/{sample}.trimmed_fastqc.zip",sample=files)
 
 rule adapter_trimming_fastp:
 	input:
@@ -106,7 +106,8 @@ rule fastqc_stats:
 		"analyses/trimmed/{sample}.trimmed.fastq.gz"
 
 	output:
-		directory("analyses/stats/{sample}.trimmed.FastQC")
+		directory("analyses/fastqc/{sample}.trimmed.FastQC"),
+		"analyses/fastqc/{sample}.trimmed.FastQC/{sample}.trimmed_fastqc.zip"
 
 	conda:
 		"../envs/main.yaml"
@@ -115,9 +116,17 @@ rule fastqc_stats:
 
 	shell:
 		"""
-		mkdir {output};
-		fastqc --nogroup --extract -o {output} -t {threads} {input};
+		mkdir -p {output[0]};
+		fastqc --nogroup -o {output[0]} -t {threads} {input};
 		"""
+
+rule multiqc:
+	input:
+		expand("analyses/fastqc/{sample}.trimmed.FastQC/{sample}.trimmed_fastqc.zip",sample=files)
+	output:
+		"results/multiqc_report.html"
+	shell:
+		"multiqc --force analyses/fastqc/ -o results/"
 
 rule combine_file_stats:
 	input:
@@ -127,6 +136,6 @@ rule combine_file_stats:
 		"results/file_statistics.csv"
 	
 	run:
-		shell("""echo "md5sum\tphysical\tfilename\tcase_control\tsample\ttotal_reads\ttotal_reads_after_trimming\tcollapsed_reads\tspike_in_counts\tfile_size(MB)\tgc" > {output};""")	
+		shell("""echo "md5sum\tfilename\ttotal_reads\ttotal_reads_after_trimming\tcollapsed_reads\tfile_size(MB)\tgc" > {output};""")	
 		for i in input:
 			shell("""cat {i} | grep -v "#" >> {output};""")
