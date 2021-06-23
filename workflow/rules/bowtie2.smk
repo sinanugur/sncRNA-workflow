@@ -125,8 +125,21 @@ rule multiqc:
 		expand("analyses/fastqc/{sample}.trimmed.FastQC/{sample}.trimmed_fastqc.zip",sample=files)
 	output:
 		"results/multiqc_report.html"
+	conda:
+		"../envs/main.yaml"
 	shell:
 		"multiqc --force analyses/fastqc/ -o results/"
+
+rule mirtrace:
+	input:
+		expand("analyses/trimmed/{sample}.trimmed.fastq.gz",sample=files)
+	output:
+		"results/mirtrace/mirtrace-report.html"
+
+	conda:
+		"../envs/main.yaml"
+	shell:
+		"mirtrace qc --species hsa analyses/trimmed/* -o results/mirtrace/ --force"
 
 rule combine_file_stats:
 	input:

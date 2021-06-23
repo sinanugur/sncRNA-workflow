@@ -13,7 +13,8 @@ rule all:
 		expand(["results/count_tables/" + x + ".tsv" for x in ["lincRNA","misc_RNA","protein_coding","snoRNA","snRNA","scaRNA","antisense"]]),
 		"results/file_statistics.csv",
 		expand("analyses/fastqc/{sample}.trimmed.FastQC/{sample}.trimmed_fastqc.zip",sample=files),
-		"results/multiqc_report.html"
+		"results/multiqc_report.html",
+		"results/mirtrace/mirtrace-report.html"
 
 
 
