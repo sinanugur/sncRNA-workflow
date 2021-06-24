@@ -1,5 +1,7 @@
 #directories, files, = glob_wildcards("data/raw/{sample}.fastq.gz")
 
+def get_mem_mb(wildcards, attempt):
+    return attempt * 1000
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
 
@@ -136,10 +138,14 @@ rule mirtrace:
 	output:
 		"results/mirtrace/mirtrace-report.html"
 
+	threads: 15
+	resources:
+		mem_mb=get_mem_mb
+
 	conda:
 		"../envs/main.yaml"
 	shell:
-		"mirtrace qc --species hsa analyses/trimmed/* -o results/mirtrace/ --force"
+		"mirtrace qc -t {threads} --global-mem-reserve {resources.mem_mb} --species hsa analyses/trimmed/* -o results/mirtrace/ --force"
 
 rule combine_file_stats:
 	input:
