@@ -1,1 +1,2 @@
 databases/hg38.fa.gz filter=lfs diff=lfs merge=lfs -text
+minimal-env.tar.gz filter=lfs diff=lfs merge=lfs -text
