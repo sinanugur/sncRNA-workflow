@@ -1,4 +1,4 @@
-#!/usr/bin/Rscript
+#!/usr/bin/env Rscript
 
 ####################################################################################################
 ## Script: separate_gene_types.R                                                              
@@ -11,7 +11,7 @@
 ####################################################################################################
 
 
-keep = c("lincRNA","misc_RNA","protein_coding","snoRNA","snRNA","scaRNA","antisense")
+keep = c("lncRNA","misc_RNA","protein_coding","snoRNA","snRNA","scaRNA")
 
 #setwd("/WORKING/projects/miRJanus/analyses/main_results/count_tables_for_all_analyses")
 
@@ -35,7 +35,7 @@ if(length(arguments) >= 1) {
 
 rownames(gencode_combined_table)=gencode_combined_table[,1]
 
-gencode_gene_table=read.csv("/WORKING/databases/gencode/gencode.gene-name.csv",header = T,sep="\t")
+gencode_gene_table=read.csv("../../databases/gencode.gene-name.csv",header = T,sep="\t")
 
 
 select_out_type=function(rna_type){

@@ -21,6 +21,19 @@ rule prepare_gencode:
     shell:
         "gunzip -c {input} > databases/gencode.gff3"
 
+
+rule prepare_gene_type:
+    input:
+        "databases/gencode.gff3.gz"
+
+    output:
+        "databases/gencode.gene-name.csv"
+
+    conda:
+        "../envs/main.yaml"
+    shell:
+        """zcat {input} | awk '{match($0,/gene_type=([^^;]+)/,m); match($0,/gene_name=([^^;]+)/,n); print n[1]"\t"m[1]}' | sort -u -k1,1 | awk 'BEGIN{{print "ID\tType"}}{{print $1"\t"$2}}' > {output}"""
+
 rule prepare_pirna:
     input:
         "databases/piRNA.gtf.gz"

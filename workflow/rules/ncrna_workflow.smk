@@ -106,7 +106,7 @@ rule trna_from_gencode:
                 	input_name=$(basename {input.bam})
 		samplename=${{input_name/.sorted.bam/}}
 
-		workflow/scripts/rnaseq_tool.py {input.bam} -g {input.trnagencode} --collapsed --filter -f tRNA -i gene_name | awk -v s=$samplename 'BEGIN{{print"ID\t"s}}{{print}}' > {output};
+		workflow/scripts/rnaseq_tool.py {input.bam} -g {input.trnagencode} --collapsed --filter -f tRNA -i gene_id | awk -v s=$samplename 'BEGIN{{print"ID\t"s}}{{print}}' > {output};
 
                 '''
 
@@ -122,16 +122,17 @@ rule create_final_count_tables:
 
 	shell:
 		'''
-		workflow/scripts/generic_table_creator.R {wildcards.gene} analyses/bowtie_mappings_genome_multi/txt_tables_per_file/{wildcards.gene}
+		Rscript --no-environ workflow/scripts/generic_table_creator.R {wildcards.gene} analyses/bowtie_mappings_genome_multi/txt_tables_per_file/{wildcards.gene}
 		mv analyses/bowtie_mappings_genome_multi/txt_tables_per_file/{wildcards.gene}/{wildcards.gene}.tsv results/count_tables/{wildcards.gene}.tsv
 		'''
 
 
 rule separate_gene_types:
 	input:
-		"results/count_tables/gencode.tsv"
+		"results/count_tables/gencode.tsv",
+		"databases/gencode.gene-name.csv"
 	output:
-		["results/count_tables/" + x + ".tsv" for x in ["lincRNA","misc_RNA","protein_coding","snoRNA","snRNA","scaRNA","antisense"]]
+		["results/count_tables/" + x + ".tsv" for x in ["lncRNA","misc_RNA","protein_coding","snoRNA","snRNA","scaRNA"]]
 
 
 	conda:
@@ -139,7 +140,7 @@ rule separate_gene_types:
 	shell:
 		"""
 		cd results/count_tables/
-		{directory_workdir}/workflow/scripts/separate_gene_types.R gencode.tsv
+		Rscript --no-environ {directory_workdir}/workflow/scripts/separate_gene_types.R gencode.tsv
 
 		"""
 
