@@ -67,6 +67,6 @@ This workflow was adapted from our small RNA analysis study. Please cite if you 
 
 Funding
 ---------
-The study was funded by the Research Council of Norway under the Program Human Biobanks and Health Data (grant numbers 229621/H10 and 248791/H10) and the EULAT EradicateGBC project. 
+The study was funded by the European Union’s Horizon 2020 research and innovation program (grant 825741) and the Research Council of Norway under the Program Human Biobanks and Health Data (grant numbers 229621/H10 and 248791/H10). 
 
 
