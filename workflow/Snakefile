@@ -6,16 +6,27 @@ files, = glob_wildcards("data/{sample}.fastq.gz")
 include: "rules/ncrna_workflow.smk"
 
 
+route=config.get("route","bowtie2")
 
-rule all:
-	input:
-		expand("results/count_tables/{gene}.tsv",gene=gene),
-		expand(["results/count_tables/" + x + ".tsv" for x in ["lncRNA","misc_RNA","protein_coding","snoRNA","snRNA","scaRNA"]]),
-		"results/file_statistics.csv",
-		expand("analyses/fastqc/{sample}.trimmed.FastQC/{sample}.trimmed_fastqc.zip",sample=files),
-		"results/multiqc_report.html",
-		"results/mirtrace/mirtrace-report.html"
+if route == "bowtie2":
+	rule all:
+		input:
+			expand("results/count_tables/{gene}.tsv",gene=gene),
+			expand(["results/count_tables/" + x + ".tsv" for x in ["lncRNA","misc_RNA","protein_coding","snoRNA","snRNA","scaRNA"]]),
+			"results/file_statistics.csv",
+			expand("analyses/fastqc/{sample}.trimmed.FastQC/{sample}.trimmed_fastqc.zip",sample=files),
+			"results/multiqc_report.html",
+			"results/mirtrace/mirtrace-report.html"
 
 
 
+elif route == "bowtie1":
+	print("Bowtie1 route has been selected")
+	rule all_bowtie1:
+		input:
+			expand("analyses/bowtie1_mappings/{sample}.sorted.bam",sample=files)
+
+else:
+	print("Please select a correct route...")
+	print("bowtie1/bowtie2")
 

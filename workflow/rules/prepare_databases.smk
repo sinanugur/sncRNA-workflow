@@ -57,4 +57,25 @@ rule prepare_bowtie2_index:
     threads: 15
 
     shell:
-        "bowtie2-build {input} databases/hg38"
+        "bowtie2-build --threads {threads} {input} databases/hg38"
+
+
+rule prepare_bowtie1_index:
+    input:
+        "databases/hg38.fa.gz"	
+    output:
+        multiext(
+            "databases/hg38",
+            ".1.ebwt", ".2.ebwt", ".3.ebwt", ".4.ebwt", ".rev.1.ebwt", ".rev.2.ebwt",
+        ),
+        
+    conda:
+        "../envs/main.yaml"
+    threads: 15
+    shell:
+        """
+        gunzip --keep {input}
+        bowtie-build --threads {threads} databases/hg38.fa databases/hg38
+        rm databases/hg38.fa
+
+        """
