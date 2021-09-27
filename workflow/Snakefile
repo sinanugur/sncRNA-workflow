@@ -26,6 +26,14 @@ elif route == "bowtie1":
 		input:
 			expand("analyses/bowtie1_mappings/{sample}.sorted.bam",sample=files)
 
+
+elif route == "stats" or route == "statistics":
+	print("Statistics route has been selected. This workflow requires Bowtie1 outputs")
+	rule statistics:
+		input:
+			expand("analyses/bowtie1_mappings/{sample}.sorted.bam",sample=files)
+	
+
 else:
 	print("Please select a correct route...")
 	print("bowtie1/bowtie2")
