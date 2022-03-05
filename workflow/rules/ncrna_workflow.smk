@@ -1,6 +1,7 @@
 from collections import defaultdict
 
 include: "bowtie2.smk"
+include: "bowtie1.smk"
 include: "prepare_databases.smk"
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
 

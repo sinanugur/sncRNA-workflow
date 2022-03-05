@@ -4,11 +4,12 @@ files, = glob_wildcards("data/{sample}.fastq.gz")
 
 
 include: "rules/ncrna_workflow.smk"
+include: "rules/statistics.smk"
 
 
-route=config.get("route","bowtie2")
+module=config.get("module","bowtie2")
 
-if route == "bowtie2":
+if module == "bowtie2":
 	rule all:
 		input:
 			expand("results/count_tables/{gene}.tsv",gene=gene),
@@ -20,21 +21,21 @@ if route == "bowtie2":
 
 
 
-elif route == "bowtie1":
-	print("Bowtie1 route has been selected")
+elif module == "bowtie1":
+	print("Bowtie1 module has been selected.")
 	rule all_bowtie1:
 		input:
 			expand("analyses/bowtie1_mappings/{sample}.sorted.bam",sample=files)
 
 
-elif route == "stats" or route == "statistics":
-	print("Statistics route has been selected. This workflow requires Bowtie1 outputs")
+elif module == "stats" or module == "statistics":
+	print("Statistics module has been selected.")
 	rule statistics:
 		input:
-			expand("analyses/bowtie1_mappings/{sample}.sorted.bam",sample=files)
+			expand("results/statistics/{gene}.tsv",gene=["gencode.uniq.exon","piRNA.uniq","tRNA.uniq"])
 	
 
 else:
-	print("Please select a correct route...")
-	print("bowtie1/bowtie2")
+	print("Please select a correct module...")
+	print("bowtie1/bowtie2/stats")
 
