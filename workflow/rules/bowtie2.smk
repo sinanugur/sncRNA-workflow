@@ -70,6 +70,7 @@ rule bowtie2_mapping:
 	shell:
 		"""
 		bowtie2 --sensitive-local -k 10 -f -p {threads} -x {humangenome} -U <(zcat {input[0]}) | samtools view -bS - | samtools sort - -o {output}
+		samtools index {output}
 		"""
 
 

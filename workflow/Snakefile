@@ -1,15 +1,15 @@
 files, = glob_wildcards("data/{sample}.fastq.gz")
 
 
-
-
 include: "rules/ncrna_workflow.smk"
 include: "rules/statistics.smk"
 
 
-module=config.get("module","bowtie2")
+route=config.get("route","bowtie2")
 
-if module == "bowtie2":
+
+
+if route == "bowtie2":
 	rule all:
 		input:
 			expand("results/count_tables/{gene}.tsv",gene=gene),
@@ -18,17 +18,15 @@ if module == "bowtie2":
 			expand("analyses/fastqc/{sample}.trimmed.FastQC/{sample}.trimmed_fastqc.zip",sample=files),
 			"results/multiqc_report.html",
 			"results/mirtrace/mirtrace-report.html"
-
-
-
-elif module == "bowtie1":
+			
+elif route == "bowtie1":
 	print("Bowtie1 module has been selected.")
 	rule all_bowtie1:
 		input:
 			expand("analyses/bowtie1_mappings/{sample}.sorted.bam",sample=files)
 
 
-elif module == "stats" or module == "statistics":
+elif route == "stats" or route == "statistics":
 	print("Statistics module has been selected.")
 	rule statistics:
 		input:
@@ -36,6 +34,6 @@ elif module == "stats" or module == "statistics":
 	
 
 else:
-	print("Please select a correct module...")
+	print("Please select a correct route...")
 	print("bowtie1/bowtie2/stats")
 
