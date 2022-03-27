@@ -1,3 +1,7 @@
+'''
+@author: Sinan U. Umu, PhD, sinanugur@gmail.com
+'''
+
 #directories, files, = glob_wildcards("data/raw/{sample}.fastq.gz")
 
 def get_mem_mb(wildcards, attempt):

@@ -1,5 +1,8 @@
 from collections import defaultdict
 
+'''
+@author: Sinan U. Umu, PhD, sinanugur@gmail.com
+'''
 include: "bowtie2.smk"
 include: "prepare_databases.smk"
 

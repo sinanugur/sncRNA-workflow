@@ -1,3 +1,7 @@
+'''
+@author: Sinan U. Umu, PhD, sinanugur@gmail.com
+'''
+
 rule bowtie1_mapping:
 	input:
 		"analyses/trimmed/{sample}.trimmed.fastq.gz",
