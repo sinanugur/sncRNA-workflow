@@ -14,6 +14,7 @@ dependencies:
   - gawk=5.1.0
   - mintmap=1.0
   - mirtop=0.4.23
+  - mintmap=1.0
   - moreutils
   - coreutils
   - pip
@@ -34,5 +35,5 @@ dependencies:
     - pybedtools
     - pysam>=0.15.3
     - docopt
-    - snakemake
+    - snakemake>=6.0
 

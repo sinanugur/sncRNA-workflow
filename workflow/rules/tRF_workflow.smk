@@ -6,6 +6,10 @@ from collections import defaultdict
 include: "bowtie2.smk"
 #gene=['tRF']
 
+'''
+@author: Sinan U. Umu, PhD, sinanugur@gmail.com
+'''
+
 
 rule trna_derived_by_MINTmap:
         input: "analyses/trimmed/{sample}.trimmed.fastq.gz"
