@@ -8,9 +8,9 @@ include: "prepare_databases.smk"
 
 #directories, files, = glob_wildcards("analyses/bowtie_mappings_genome_multi/{sample}.sorted.bam")
 
-files, = glob_wildcards("data/{sample}.fastq.gz")
+#files, = glob_wildcards("data/{sample}.fastq.gz")
 
-gene=["gencode","piRNA","miRNA_precursor","miRNA","tRNA"]
+#gene=["gencode","piRNA","miRNA_precursor","miRNA","tRNA"]
 
 
 configfile: "config/config.yaml"
@@ -29,7 +29,7 @@ directory_workdir=os.getcwd()
 
 rule all_ncrna:
 	input:
-		expand("results/count_tables/{gene}.tsv",gene=gene),
+		#expand("results/count_tables/{gene}.tsv",gene=gene),
 		expand(["results/count_tables/" + x + ".tsv" for x in ["lincRNA","misc_RNA","protein_coding","snoRNA","snRNA","scaRNA","antisense"]])
 
 
@@ -123,8 +123,10 @@ rule create_final_count_tables:
 
 	shell:
 		'''
-		Rscript --no-environ workflow/scripts/generic_table_creator.R {wildcards.gene} analyses/bowtie_mappings_genome_multi/txt_tables_per_file/{wildcards.gene}
-		mv analyses/bowtie_mappings_genome_multi/txt_tables_per_file/{wildcards.gene}/{wildcards.gene}.tsv results/count_tables/{wildcards.gene}.tsv
+		#Rscript --no-environ workflow/scripts/generic_table_creator.R {wildcards.gene} analyses/bowtie_mappings_genome_multi/txt_tables_per_file/{wildcards.gene}
+		#mv analyses/bowtie_mappings_genome_multi/txt_tables_per_file/{wildcards.gene}/{wildcards.gene}.tsv results/count_tables/{wildcards.gene}.tsv
+
+		echo "{output} {input}" | xargs Rscript --no-environ ./workflow/scripts/sncrna_table_creator.R
 		'''
 
 

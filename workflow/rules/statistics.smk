@@ -75,6 +75,7 @@ rule create_stats_count_tables:
 
         shell:
                 '''
-                Rscript --no-environ workflow/scripts/generic_table_creator.R {wildcards.gene} analyses/statistics/txt_tables_per_file/{wildcards.gene}
-                mv analyses/statistics/txt_tables_per_file/{wildcards.gene}/{wildcards.gene}.tsv results/statistics/{wildcards.gene}.tsv
+                echo "{output} {input}" | xargs Rscript --no-environ ./workflow/scripts/sncrna_table_creator.R
+
+                
                 '''

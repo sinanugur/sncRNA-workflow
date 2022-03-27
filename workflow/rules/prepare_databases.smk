@@ -42,6 +42,15 @@ rule prepare_pirna:
     shell:
         "gunzip -c {input} > databases/piRNA.gtf"
 
+rule prepare_trna_stats_file:
+    input:
+        "databases/tRNA.gff3"
+    output:
+        temp("databases/tRNA.forstatistics.gff3")
+    shell:
+        """
+        cat {input} | gawk '{{print $0";stat_type=tRNA"}}' > {output}
+        """
 
 rule prepare_bowtie2_index:
     input:

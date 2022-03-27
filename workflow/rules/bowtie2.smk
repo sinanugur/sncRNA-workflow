@@ -60,7 +60,8 @@ rule bowtie2_mapping:
         )
 
 	output:
-		"analyses/bowtie_mappings_genome_multi/{sample}.sorted.bam"
+		bam="analyses/bowtie_mappings_genome_multi/{sample}.sorted.bam",
+		bai="analyses/bowtie_mappings_genome_multi/{sample}.sorted.bam.bai"
 
 	conda:
 		"../envs/main.yaml"
@@ -69,8 +70,8 @@ rule bowtie2_mapping:
 
 	shell:
 		"""
-		bowtie2 --sensitive-local -k 10 -f -p {threads} -x {humangenome} -U <(zcat {input[0]}) | samtools view -bS - | samtools sort - -o {output}
-		samtools index {output}
+		bowtie2 --sensitive-local -k 10 -f -p {threads} -x {humangenome} -U <(zcat {input[0]}) | samtools view -bS - | samtools sort - -o {output.bam}
+		samtools index {output.bam}
 		"""
 
 
