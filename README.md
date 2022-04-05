@@ -32,7 +32,7 @@ Make sure you have human genome file into the `databases` folder, you can downlo
 wget https://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/hg38.fa.gz
 ```
 
-then put this file under `databases` directory. 
+then put this file under `databases` directory. Do not unzip the file, this will also save space.
 
 Quick start example
 -------------------
