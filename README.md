@@ -26,6 +26,14 @@ conda activate smrnaworkflow
 
 ```
 
+Make sure you have human genome file into the `databases` folder, you can download it by typing:
+
+```
+wget https://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/hg38.fa.gz
+```
+
+then put this file under `databases` directory. 
+
 Quick start example
 -------------------
 You should create a new directory called __data__ and place your FASTQ files or their symbolic links into `data/` directory. You need an active Conda installation with Snakemake or create an environment using the YAML file. You do not have to install any other requirements. This will trigger a workflow run immediately using 15 threads:
