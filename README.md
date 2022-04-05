@@ -56,6 +56,7 @@ GENCODE (v38)
 miRBase (v22)
 piRBase (v1.0)
 ```
+You may update the databases. These versions are the release versions.
 
 Output
 ------
