@@ -34,6 +34,13 @@ You should create a new directory called __data__ and place your FASTQ files or 
 snakemake -j 15 --use-conda
 ```
 
+or if the environment is properpy set with all the packages, simply type:
+
+```
+snakemake -j 15 
+```
+
+
 Databases
 ---------------------
 ```
