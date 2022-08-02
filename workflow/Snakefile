@@ -35,7 +35,7 @@ __version__= '1.01'
 include: "rules/ncrna_workflow.smk"
 include: "rules/statistics.smk"
 include: "rules/tRF_workflow.smk"
-
+include: "rules/isomirmap.smk"
 
 route=config.get("route","bowtie2")
 
@@ -51,6 +51,7 @@ if route == "bowtie2":
 			"results/multiqc_report.html",
 			"results/count_tables/tRF.tsv",
 			"results/mirtrace/mirtrace-report.html",
+			"results/count_tables/isomiR.tsv"
 
 			
 elif route == "bowtie1":
@@ -66,6 +67,9 @@ elif route == "stats" or route == "statistics":
 		input:
 			expand("results/statistics/{gene}.tsv",gene=["gencode.uniq.exon","piRNA.uniq","tRNA.uniq"])
 	
+
+elif route == "devel":
+	pass
 
 else:
 	print("Please select a correct route...")
