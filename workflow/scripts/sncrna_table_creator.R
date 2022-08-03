@@ -22,14 +22,14 @@ require(dplyr)
 #file_type=paste0("*.\\.",arguments[1],"[.txt$|.tsv$]") #this for seqbuster 12/10/2017
 
 
-print(arguments)
 out_file_name=arguments[1]
 
 
 
-read_file_list=arguments[-1]  
+read_file_list=unlist(strsplit(arguments[2], ","))  
+read_file_list=read_file_list[lengths(read_file_list) > 0L]
 
-
+print(read_file_list)
 
 read_files=function(file_list)
 {

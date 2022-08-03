@@ -46,10 +46,10 @@ rule create_tRF_count_tables:
 
         shell:
                 '''
-                #Rscript --no-environ workflow/scripts/generic_table_creator.R MINTmap analyses/MINTmap/txt_tables_per_file/
-                #mv analyses/MINTmap/txt_tables_per_file/MINTmap.tsv results/count_tables/tRF.tsv
 
-                echo "{output} {input}" | xargs Rscript --no-environ ./workflow/scripts/sncrna_table_creator.R
+		files=$(for i in {input}; do printf $i","; done)
+                
+		Rscript --no-environ ./workflow/scripts/sncrna_table_creator.R {output} $files
 
                 '''
 
