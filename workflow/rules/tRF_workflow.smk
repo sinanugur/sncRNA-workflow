@@ -15,8 +15,7 @@ rule trna_derived_by_MINTmap:
         input: "analyses/trimmed/{sample}.trimmed.fastq.gz"
 
         output: "analyses/MINTmap/{sample}-MINTmap_v1-exclusive-tRFs.expression.txt",
-                "analyses/MINTmap/{sample}-MINTmap_v1-ambiguous-tRFs.expression.txt",
-		"analyses/MINTmap/txt_tables_per_file/{sample}.MINTmap.txt"
+                "analyses/MINTmap/{sample}-MINTmap_v1-ambiguous-tRFs.expression.txt"
         params:
                 p="analyses/MINTmap/{sample}",
                 l="databases/LookupTable.tRFs.MINTmap_v1.txt",
@@ -31,10 +30,25 @@ rule trna_derived_by_MINTmap:
 		samplename=${{input_name/.trimmed.fastq.gz/}}
 
                 MINTmap.pl -p {params.p} -f {input} -l {params.l} -s {params.s} -o {params.o} -j {params.j};
-
-		cat {output[0]} {output[1]} | gawk -v s=$samplename 'BEGIN{{print "ID\t"s}}!/MINTbase/{{print $1"\t"$4}}' > {output[2]};
-
                 '''
+
+
+rule trf_txt_tables:
+    input:
+        "analyses/MINTmap/{sample}-MINTmap_v1-exclusive-tRFs.expression.txt",
+        "analyses/MINTmap/{sample}-MINTmap_v1-ambiguous-tRFs.expression.txt"
+    output:
+        "analyses/MINTmap/txt_tables_per_file/{sample}.MINTmap.txt"
+    shell:
+        """
+        input_name=$(basename {input[0]})
+	samplename=${{input_name/-MINTmap_v1-exclusive-tRFs.expression.txt/}}
+
+        cat {input[0]} {input[1]} | gawk -v s=$samplename 'BEGIN{{print "ID\t"s}}!/MINTbase/{{print $1"\t"$4}}' > {output};
+
+
+
+        """
 
 
 rule create_tRF_count_tables:

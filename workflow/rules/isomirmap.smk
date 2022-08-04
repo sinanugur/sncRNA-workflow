@@ -18,8 +18,8 @@ rule isomir_derived_by_isomirmap:
         output: 
             "analyses/isoMiRmap/{sample}-IsoMiRmap_v5-exclusive-isomiRs.expression.txt",
             "analyses/isoMiRmap/{sample}-IsoMiRmap_v5-ambiguous-isomiRs.expression.txt",
-            "analyses/isoMiRmap/{sample}-IsoMiRmap_v5-snps-isomiRs.expression.txt",
-            "analyses/isoMiRmap/txt_tables_per_file/{sample}.isomirmap.txt"
+            "analyses/isoMiRmap/{sample}-IsoMiRmap_v5-snps-isomiRs.expression.txt"
+            
 
         shell:
             """
@@ -28,12 +28,23 @@ rule isomir_derived_by_isomirmap:
 
         isoMiRmap/IsoMiRmap.py {input} --m ./isoMiRmap/MappingBundles/miRBase/ --p analyses/isoMiRmap/"$samplename"
 
-
-		cat {output[0]} {output[1]} | grep -v "^#" | gawk -v s=$samplename 'BEGIN{{print "ID\t"s}}!/License/{{print $1"\t"$4}}' > {output[3]};
-
-        cat {output[2]} | grep -v "^#" | gawk '!/License/{{print $1"\t"$3}}' >> {output[3]};
-
             """
+
+rule isomir_txt_tables:
+    input:
+        "analyses/isoMiRmap/{sample}-IsoMiRmap_v5-exclusive-isomiRs.expression.txt",
+        "analyses/isoMiRmap/{sample}-IsoMiRmap_v5-ambiguous-isomiRs.expression.txt",
+        "analyses/isoMiRmap/{sample}-IsoMiRmap_v5-snps-isomiRs.expression.txt"
+    output:
+        "analyses/isoMiRmap/txt_tables_per_file/{sample}.isomirmap.txt"
+    shell:
+        """
+        input_name=$(basename {input[0]})
+		samplename=${{input_name/-IsoMiRmap_v5-exclusive-isomiRs.expression.txt/}}
+        cat {input[0]} {input[1]} | grep -v "^#" | gawk -v s=$samplename 'BEGIN{{print "ID\t"s}}!/License/{{print $1"\t"$4}}' > {output};
+        cat {input[2]} | grep -v "^#" | gawk '!/License/{{print $1"\t"$3}}' >> {output};
+        """
+
 
 
 rule create_isomirmap_count_tables:
