@@ -26,7 +26,9 @@ out_file_name=arguments[1]
 
 
 
-read_file_list=unlist(strsplit(arguments[2], ","))  
+#read_file_list=unlist(strsplit(arguments[2], ","))  
+read_file_list=read.csv(arguments[2], header=FALSE,stringsAsFactors = FALSE) %>% pull()
+
 read_file_list=read_file_list[lengths(read_file_list) > 0L]
 
 print(read_file_list)

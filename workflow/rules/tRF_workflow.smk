@@ -47,9 +47,10 @@ rule create_tRF_count_tables:
         shell:
                 '''
 
-		files=$(for i in {input}; do printf $i","; done)
-                
-		Rscript --no-environ ./workflow/scripts/sncrna_table_creator.R {output} $files
+		for i in {input}; do echo $i; done > analyses/MINTmap/tmp.csv
+		Rscript --no-environ ./workflow/scripts/sncrna_table_creator.R {output} analyses/MINTmap/tmp.csv
+
+                rm analyses/MINTmap/tmp.csv
 
                 '''
 

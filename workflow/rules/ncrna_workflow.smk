@@ -127,14 +127,9 @@ rule create_final_count_tables:
 
 	shell:
 		'''
-		#Rscript --no-environ workflow/scripts/generic_table_creator.R {wildcards.gene} analyses/bowtie_mappings_genome_multi/txt_tables_per_file/{wildcards.gene}
-		#mv analyses/bowtie_mappings_genome_multi/txt_tables_per_file/{wildcards.gene}/{wildcards.gene}.tsv results/count_tables/{wildcards.gene}.tsv
-
-		#echo "{output} {input}" | xargs Rscript --no-environ ./workflow/scripts/sncrna_table_creator.R
-
-		files=$(for i in {input}; do printf $i","; done)
-                
-		Rscript --no-environ ./workflow/scripts/sncrna_table_creator.R {output} $files
+		for i in {input}; do echo $i; done > analyses/{wildcards.gene}.csv
+		Rscript --no-environ ./workflow/scripts/sncrna_table_creator.R {output} analyses/{wildcards.gene}.csv
+        rm analyses/{wildcards.gene}.csv
 		'''
 
 

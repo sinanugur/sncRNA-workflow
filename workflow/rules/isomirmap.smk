@@ -45,9 +45,10 @@ rule create_isomirmap_count_tables:
 
         shell:
             """
-		files=$(for i in {input}; do printf $i","; done)
-                
-		Rscript --no-environ ./workflow/scripts/sncrna_table_creator.R {output} $files
+		for i in {input}; do echo $i; done > analyses/isoMiRmap/tmp.csv
+		Rscript --no-environ ./workflow/scripts/sncrna_table_creator.R {output} analyses/isoMiRmap/tmp.csv
+
+                rm analyses/isoMiRmap/tmp.csv
             """
 
 
