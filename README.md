@@ -26,6 +26,13 @@ conda activate smrnaworkflow
 
 ```
 
+If that fails, you can update an existing environment
+
+```
+conda env update -f environment.yml --prune
+```
+
+
 Make sure you have human genome file into the `databases` folder, you can download it by typing:
 
 ```
