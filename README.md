@@ -53,16 +53,11 @@ Quick start example
 -------------------
 You should create a new directory called __data__ and place your FASTQ files or their symbolic links into `data/` directory. You need an active Conda installation with Snakemake or create an environment using the YAML file. You do not have to install any other requirements. This will trigger a workflow run immediately using 15 threads:
 
-```
-snakemake -j 15 --use-conda
-```
-
-or if the environment is properly set with all the packages, simply type:
+if the environment is properly set with all the packages, simply type:
 
 ```
 snakemake -j 15 
 ```
-
 
 Databases
 ---------------------
