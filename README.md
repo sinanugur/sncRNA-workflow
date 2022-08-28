@@ -21,7 +21,7 @@ cd sncRNA-workflow
 If you have Anaconda, a new environment can be created
 
 ```
-conda env create --file environment.yml
+conda env create -n smrnaworkflow --file environment.yml
 conda activate smrnaworkflow
 
 ```
@@ -32,14 +32,22 @@ If that fails, you can update an existing environment
 conda env update -f environment.yml --prune
 ```
 
+Installing mamba also helps (https://mamba.readthedocs.io/en/latest/installation.html)
+
+```
+conda install mamba -n base -c conda-forge
+mamba env create -n smrnaworkflow --file environment.yml
+conda activate smrnaworkflow
+```
 
 Make sure you have human genome file into the `databases` folder, you can download it by typing:
 
 ```
 wget https://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/hg38.fa.gz
 ```
-
 then put this file under `databases` directory. Do not unzip the file, this will also save space.
+
+You can also run `download_databases.sh` script which will auto-download the genome file.
 
 Quick start example
 -------------------
