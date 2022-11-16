@@ -78,7 +78,7 @@ rule create_stats_count_tables:
 
         shell:
                 '''
-                echo "{output} {input}" | xargs Rscript --no-environ ./workflow/scripts/sncrna_table_creator.R
-
-                
+                for i in {input}; do echo $i; done > analyses/{wildcards.gene}.csv
+		Rscript --no-environ ./workflow/scripts/sncrna_table_creator.R {output} analyses/{wildcards.gene}.csv
+                rm analyses/{wildcards.gene}.csv                
                 '''
