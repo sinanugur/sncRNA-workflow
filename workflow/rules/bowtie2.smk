@@ -44,16 +44,15 @@ rule collapsing_reads:
 	
 	output:
 		"analyses/collapsed/{sample}.trimmed.collapsed.fasta.gz"
+#	conda:
+#		"../envs/main.yaml"
+	run:
+		try:
+			shell("gunzip -c  {input} | workflow/scripts/fastx_collapser | gzip > {output}")
+		except:
+			shell("gunzip -c  {input} | fastx_collapser | gzip > {output}")
 
-	conda:
-		"../envs/main.yaml"
 
-	shell:
-		"""
-		
-		zcat {input} | workflow/scripts/fastx_collapser | gzip > {output}
-				
-		"""
 
 rule bowtie2_mapping:
 	input:
@@ -74,7 +73,7 @@ rule bowtie2_mapping:
 
 	shell:
 		"""
-		bowtie2 --sensitive-local -k 10 -f -p {threads} -x {humangenome} -U <(zcat {input[0]}) | samtools view -bS - | samtools sort - -o {output.bam}
+		bowtie2 --sensitive-local -k 10 -f -p {threads} -x {humangenome} -U <(gunzip -c  {input[0]}) | samtools view -bS - | samtools sort - -o {output.bam}
 		samtools index {output.bam}
 		"""
 
@@ -99,9 +98,9 @@ rule file_stats:
 	shell:
 		"""
 		md5=$(md5sum {input[0]} | awk '{{print $1}}')
-		seq_count=$(zcat {input[0]} | echo $((`wc -l`/4)))
-		trimmed_seq_count=$(zcat {input[1]} | echo $((`wc -l`/4)))
-		collapsed_reads=$(zcat {input[2]} | grep ">" -c)
+		seq_count=$(gunzip -c  {input[0]} | echo $((`wc -l`/4)))
+		trimmed_seq_count=$(gunzip -c  {input[1]} | echo $((`wc -l`/4)))
+		collapsed_reads=$(gunzip -c  {input[2]} | grep ">" -c)
 		if [ -L {input[0]} ]; then physical=$(readlink {input[0]}); else physical={input[0]}; fi
 		
 	
