@@ -73,7 +73,7 @@ rule bowtie2_mapping:
 
 	shell:
 		"""
-		bowtie2 --sensitive-local -k 10 -f -p {threads} -x {humangenome} -U <(gunzip -c  {input[0]}) | samtools view -bS - | samtools sort - -o {output.bam}
+		bowtie2 --very-sensitive-local -k 10 -f -p {threads} -x {humangenome} -U <(gunzip -c  {input[0]}) | samtools view -bS - | samtools sort - -o {output.bam}
 		samtools index {output.bam}
 		"""
 
