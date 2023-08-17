@@ -32,7 +32,7 @@ rule prepare_gene_type:
     conda:
         "../envs/main.yaml"
     shell:
-        """zcat {input} | awk '{{match($0,/gene_type=([^^;]+)/,m); match($0,/gene_name=([^^;]+)/,n); print n[1]"\t"m[1]}}' | sort -u -k1,1 | grep "\S" | awk 'BEGIN{{print "ID\tType"}}{{print $1"\t"$2}}' > {output}"""
+        """gunzip -c {input} | awk '{{match($0,/gene_type=([^^;]+)/,m); match($0,/gene_name=([^^;]+)/,n); print n[1]"\t"m[1]}}' | sort -u -k1,1 | grep "\S" | awk 'BEGIN{{print "ID\tType"}}{{print $1"\t"$2}}' > {output}"""
 
 rule prepare_pirna:
     input:
